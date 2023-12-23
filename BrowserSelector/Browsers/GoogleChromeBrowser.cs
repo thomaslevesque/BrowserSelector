@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Win32;
 
-namespace BrowserSelector.Model.Browsers;
+namespace BrowserSelector.Browsers;
 
 public class GoogleChromeBrowser(string id, string name, string executablePath, string userDataPath)
     : ChromiumBasedBrowserBase(id, name, executablePath, userDataPath)

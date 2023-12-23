@@ -2,21 +2,15 @@
 using BrowserSelector.Extensions;
 using NString;
 
-namespace BrowserSelector.Model;
+namespace BrowserSelector.UrlHandling;
 
 public class UrlMatcher
 {
     public UrlMatchType MatchType { get; set; }
     public required string Value { get; set; }
 
-    public bool IsMatch(string url)
+    public bool IsMatch(Uri uri)
     {
-        if (string.IsNullOrEmpty(url))
-            return false;
-
-        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
-            return false;
-
         return MatchType switch
         {
             UrlMatchType.Exact => IsExactMatch(uri, false),

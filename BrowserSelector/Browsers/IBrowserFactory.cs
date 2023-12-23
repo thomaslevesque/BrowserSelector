@@ -1,4 +1,4 @@
-namespace BrowserSelector.Model;
+namespace BrowserSelector.Browsers;
 
 public interface IBrowserFactory
 {

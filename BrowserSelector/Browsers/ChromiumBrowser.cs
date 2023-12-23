@@ -1,23 +1,22 @@
 ﻿using System.IO;
 using Microsoft.Win32;
 
-namespace BrowserSelector.Model.Browsers;
+namespace BrowserSelector.Browsers;
 
-public class MicrosoftEdgeBrowser(string id, string name, string executablePath, string userDataPath)
+public class ChromiumBrowser(string id, string name, string executablePath, string userDataPath)
     : ChromiumBasedBrowserBase(id, name, executablePath, userDataPath)
 {
-    public static MicrosoftEdgeBrowser? TryCreate(RegistryKey registryKey)
+    public static ChromiumBrowser? TryCreate(RegistryKey registryKey)
     {
         if (!TryGetNameAndPath(registryKey, out var name, out var executablePath))
             return null;
 
         var userDataPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Microsoft",
-            "Edge",
+            "Chromium",
             "User Data");
 
         var keyName = Path.GetFileName(registryKey.Name);
-        return new MicrosoftEdgeBrowser(keyName, name, executablePath, userDataPath);
+        return new ChromiumBrowser(keyName, name, executablePath, userDataPath);
     }
 }

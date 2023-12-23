@@ -1,4 +1,6 @@
-﻿namespace BrowserSelector.Model;
+﻿using BrowserSelector.Browsers;
+
+namespace BrowserSelector.UrlHandling;
 
 public class UrlHandler : IUrlHandler
 {
@@ -7,7 +9,7 @@ public class UrlHandler : IUrlHandler
     public string? ProfileId { get; set; }
     public IList<string> AdditionalArguments { get; set; } = new List<string>();
 
-    public void Open(string url, IBrowserFactory browserFactory)
+    public void Open(Uri uri, IBrowserFactory browserFactory)
     {
         var browser = browserFactory.GetBrowser(BrowserId);
 
@@ -20,14 +22,13 @@ public class UrlHandler : IUrlHandler
                 {
                     throw new InvalidOperationException($"Profile with id {ProfileId} not found");
                 }
-                browserWithProfiles.Open(url, profile, AdditionalArguments);
+                browserWithProfiles.Open(uri, profile, AdditionalArguments);
+                return;
             }
-            else
-            {
-                throw new InvalidOperationException($"Browser {BrowserId} does not support profiles");
-            }
+
+            throw new InvalidOperationException($"Browser {BrowserId} does not support profiles");
         }
 
-        browser.Open(url, AdditionalArguments);
+        browser.Open(uri, AdditionalArguments);
     }
 }

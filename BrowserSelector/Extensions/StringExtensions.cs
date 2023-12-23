@@ -11,6 +11,4 @@ public static class StringExtensions
 
         return path;
     }
-
-    public static string EncloseInQuotes(this string s) => $"\"{s}\"";
 }

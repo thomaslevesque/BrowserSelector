@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Win32;
 
-namespace BrowserSelector.Model.Browsers;
+namespace BrowserSelector.Browsers;
 
 public class GenericBrowser(string id, string name, string executablePath)
     : BrowserBase(id, name, executablePath)

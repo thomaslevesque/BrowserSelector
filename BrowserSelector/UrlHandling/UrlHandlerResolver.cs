@@ -1,17 +1,16 @@
-namespace BrowserSelector.Model;
+namespace BrowserSelector.UrlHandling;
 
 public class UrlHandlerResolver(
-    IBrowserFactory browserFactory,
     IMappingRuleStore mappingRuleStore,
     IUrlHandlerStore urlHandlerStore)
-    : IHandlerResolver
+    : IUrlHandlerResolver
 {
-    public IUrlHandler? TryResolve(string url)
+    public IUrlHandler? TryResolve(Uri uri)
     {
         var rules = mappingRuleStore.GetRules();
         foreach (var rule in rules)
         {
-            if (rule.Matcher.IsMatch(url))
+            if (rule.Matcher.IsMatch(uri))
             {
                 var handler = urlHandlerStore.GetHandler(rule.HandlerId);
                 return handler;

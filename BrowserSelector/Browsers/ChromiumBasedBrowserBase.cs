@@ -1,20 +1,19 @@
 ﻿using System.IO;
 using System.Text.Json;
-using BrowserSelector.Extensions;
 
-namespace BrowserSelector.Model.Browsers;
+namespace BrowserSelector.Browsers;
 
 public abstract class ChromiumBasedBrowserBase(string id, string name, string executablePath, string userDataPath)
     : BrowserBase(id, name, executablePath), IBrowserWithProfiles
 {
-    public void Open(string url, BrowserProfile profile, IList<string>? additionalArguments = null)
+    public void Open(Uri uri, BrowserProfile profile, IList<string>? additionalArguments = null)
     {
         additionalArguments =
         [
             ..additionalArguments,
             $"--profile-directory={profile.Id}"
         ];
-        Open(url, additionalArguments);
+        base.Open(uri, additionalArguments);
     }
 
     public IEnumerable<BrowserProfile> GetProfiles()

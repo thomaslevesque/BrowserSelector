@@ -1,4 +1,4 @@
-﻿namespace BrowserSelector.Model;
+﻿namespace BrowserSelector.UrlHandling;
 
 public class UrlHandlerStore : IUrlHandlerStore
 {

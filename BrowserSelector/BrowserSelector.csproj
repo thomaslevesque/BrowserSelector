@@ -6,10 +6,14 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
+        <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.AppServices" Version="1.0.14" />
+      <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.Wpf" Version="1.0.14" />
       <PackageReference Include="EssentialMVVM" Version="1.0.2" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
       <PackageReference Include="NString" Version="2.1.1" />
     </ItemGroup>
 

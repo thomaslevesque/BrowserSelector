@@ -2,20 +2,20 @@
 using BrowserSelector.Extensions;
 using Microsoft.Win32;
 
-namespace BrowserSelector.Model.Browsers;
+namespace BrowserSelector.Browsers;
 
 public class FirefoxBrowser(string id, string name, string executablePath)
     : BrowserBase(id, name, executablePath), IBrowserWithProfiles
 {
-    public void Open(string url, BrowserProfile profile, IList<string>? additionalArguments = null)
+    public void Open(Uri uri, BrowserProfile profile, IList<string>? additionalArguments = null)
     {
         additionalArguments =
         [
             ..additionalArguments,
             "-P",
-            profile.Id.EncloseInQuotes()
+            profile.Id
         ];
-        Open(url, additionalArguments);
+        base.Open(uri, additionalArguments);
     }
 
     public IEnumerable<BrowserProfile> GetProfiles()

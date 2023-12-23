@@ -1,8 +1,7 @@
 ﻿using System.IO;
-using BrowserSelector.Model.Browsers;
 using Microsoft.Win32;
 
-namespace BrowserSelector.Model;
+namespace BrowserSelector.Browsers;
 
 public class BrowserFactory : IBrowserFactory
 {

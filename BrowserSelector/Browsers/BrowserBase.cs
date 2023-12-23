@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.Win32;
 
-namespace BrowserSelector.Model.Browsers;
+namespace BrowserSelector.Browsers;
 
 public abstract class BrowserBase(string id, string name, string executablePath) : IBrowser
 {
@@ -12,7 +12,7 @@ public abstract class BrowserBase(string id, string name, string executablePath)
 
     public string ExecutablePath => executablePath;
 
-    public virtual void Open(string url, IList<string>? additionalArguments = null)
+    public virtual void Open(Uri uri, IList<string>? additionalArguments = null)
     {
         var psi = new ProcessStartInfo(ExecutablePath)
         {
@@ -25,7 +25,7 @@ public abstract class BrowserBase(string id, string name, string executablePath)
                 psi.ArgumentList.Add(additionalArgument);
             }
         }
-        psi.ArgumentList.Add(url);
+        psi.ArgumentList.Add(uri.AbsoluteUri);
         Process.Start(psi);
     }
 
