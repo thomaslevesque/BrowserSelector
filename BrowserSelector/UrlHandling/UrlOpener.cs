@@ -26,12 +26,12 @@ public class UrlOpener(
 
         if (window.ShowDialog() is true)
         {
-            var urlHandler = urlHandlerStore.GetHandler(vm.SelectedHandlerId);
+            var handler = urlHandlerStore.GetHandler(vm.SelectedHandlerId);
             if (vm.RememberMyChoice)
             {
                 SaveHandlerChoice(vm);
             }
-            urlHandler.Open(uri, browserFactory);
+            Open(uri, handler);
         }
     }
 
@@ -54,11 +54,34 @@ public class UrlOpener(
 
     private bool TryOpenUrlAutomatically(Uri uri)
     {
-        var urlHandler = urlHandlerResolver.TryResolve(uri);
-        if (urlHandler is null)
+        var handler = urlHandlerResolver.TryResolve(uri);
+        if (handler is null)
             return false;
 
-        urlHandler.Open(uri, browserFactory);
+        Open(uri, handler);
         return true;
+    }
+
+    private void Open(Uri uri, UrlHandler handler)
+    {
+        var browser = browserFactory.GetBrowser(handler.BrowserId);
+
+        if (!string.IsNullOrEmpty(handler.ProfileId))
+        {
+            if (browser is IBrowserWithProfiles browserWithProfiles)
+            {
+                var profile = browserWithProfiles.GetProfiles().FirstOrDefault(p => p.Id == handler.ProfileId);
+                if (profile is null)
+                {
+                    throw new InvalidOperationException($"Profile with id {handler.ProfileId} not found");
+                }
+                browserWithProfiles.Open(uri, profile, handler.AdditionalArguments);
+                return;
+            }
+
+            throw new InvalidOperationException($"Browser {handler.BrowserId} does not support profiles");
+        }
+
+        browser.Open(uri, handler.AdditionalArguments);
     }
 }
