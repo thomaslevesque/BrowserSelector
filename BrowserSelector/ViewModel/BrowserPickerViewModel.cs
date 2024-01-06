@@ -50,14 +50,17 @@ public class BrowserPickerViewModel : BindableBase
 
     private static IEnumerable<UrlMatcherSuggestion> CreateMatcherSuggestions(Uri uri)
     {
-        yield return new(UrlMatchType.Authority, uri.Authority, "this domain");
+        yield return new(UrlMatchType.Authority, uri.Authority, $"host {uri.Authority}");
         var segments = uri.Segments;
         for (int i = 0; i < segments.Length; i++)
         {
             if (!segments[i].EndsWith('/'))
                 break;
             var pathPrefix = string.Concat(segments.Take(i + 1));
-            yield return new(UrlMatchType.AuthorityAndPath, uri.Authority + uri.AbsolutePath, $"this domain and path starting with {pathPrefix}");
+            if (pathPrefix == "/")
+                continue;
+
+            yield return new(UrlMatchType.AuthorityAndPath, uri.Authority + uri.AbsolutePath, $"host {uri.Authority} and path starting with {pathPrefix}");
         }
         yield return new(UrlMatchType.Exact, uri.AbsoluteUri, "this exact URL");
     }
