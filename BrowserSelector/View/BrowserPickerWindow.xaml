@@ -5,8 +5,71 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:BrowserSelector.View"
         mc:Ignorable="d"
-        Title="BrowserPickerWindow" Height="450" Width="800">
+        Title="BrowserPickerWindow" Height="200" Width="300"
+        WindowStyle="None"
+        Topmost="True"
+        Background="DarkSlateGray"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Activated="BrowserPickerWindow_OnActivated"
+        Deactivated="BrowserPickerWindow_OnDeactivated"
+        DataContextChanged="BrowserPickerWindow_OnDataContextChanged"
+        PreviewKeyDown="BrowserPickerWindow_OnPreviewKeyDown"
+        Name="root">
+    <Window.Resources>
+        <Style x:Key="BrowserButtonStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Margin" Value="5, 2, 5, 2" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Foreground="LightGray">
+            <TextBlock TextTrimming="CharacterEllipsis" TextAlignment="Center">
+                <Run Text="Select browser to open " />
+                <LineBreak />
+                <Run Text="{Binding Url, Mode=OneWay}"
+                     FontWeight="Bold"
+                     ToolTip="{Binding Url, Mode=OneWay}">
+                </Run>
+            </TextBlock>
+        </Label>
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Hidden">
+            <ItemsControl ItemsSource="{Binding Handlers}"
+                          HorizontalAlignment="Stretch"
+                          Focusable="False">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Name}"
+                                Command="{Binding DataContext.SelectCommand, ElementName=root}"
+                                CommandParameter="{Binding Id}"
+                                Style="{StaticResource BrowserButtonStyle}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5">
+            <CheckBox Grid.Row="2" IsChecked="{Binding RememberMyChoice}" Name="rememberMyChoice"
+                      Foreground="LightGray" VerticalAlignment="Center"
+                      Content="Remember my choice for " />
+            <ComboBox ItemsSource="{Binding MatcherSuggestions}"
+                      DisplayMemberPath="DisplayName"
+                      SelectedItem="{Binding SelectedMatcherSuggestion}"
+                      IsEnabled="{Binding IsChecked, ElementName=rememberMyChoice}"
+                      VerticalAlignment="Center"
+                      ToolTip="{Binding SelectedMatcherSuggestion.DisplayName}"/>
+        </StackPanel>
     </Grid>
 </Window>

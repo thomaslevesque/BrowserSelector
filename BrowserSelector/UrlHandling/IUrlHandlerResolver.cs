@@ -2,5 +2,5 @@
 
 public interface IUrlHandlerResolver
 {
-    public IUrlHandler? TryResolve(Uri uri);
+    public UrlHandler? TryResolve(Uri uri);
 }

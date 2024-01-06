@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using BrowserSelector.Extensions;
 using NString;
 
@@ -79,6 +80,7 @@ public class UrlMatcher
     }
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum UrlMatchType
 {
     Exact,

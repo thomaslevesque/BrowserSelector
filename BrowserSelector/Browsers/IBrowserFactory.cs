@@ -2,6 +2,6 @@ namespace BrowserSelector.Browsers;
 
 public interface IBrowserFactory
 {
-    IEnumerable<IBrowser> GetBrowsers();
+    IEnumerable<IBrowser> GetAvailableBrowsers();
     IBrowser GetBrowser(string id);
 }

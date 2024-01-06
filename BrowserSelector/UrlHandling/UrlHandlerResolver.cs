@@ -1,14 +1,15 @@
+using BrowserSelector.Configuration;
+
 namespace BrowserSelector.UrlHandling;
 
 public class UrlHandlerResolver(
-    IMappingRuleStore mappingRuleStore,
+    IUserOptionsStore userOptionsStore,
     IUrlHandlerStore urlHandlerStore)
     : IUrlHandlerResolver
 {
-    public IUrlHandler? TryResolve(Uri uri)
+    public UrlHandler? TryResolve(Uri uri)
     {
-        var rules = mappingRuleStore.GetRules();
-        foreach (var rule in rules)
+        foreach (var rule in userOptionsStore.Options.MappingRules)
         {
             if (rule.Matcher.IsMatch(uri))
             {

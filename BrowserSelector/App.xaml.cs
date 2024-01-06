@@ -1,36 +1,55 @@
 ﻿using System.Windows;
-using BrowserSelector.Browsers;
 using BrowserSelector.UrlHandling;
+using BrowserSelector.View;
 
 namespace BrowserSelector;
 
-public partial class App(IUrlHandlerResolver urlHandlerResolver, IBrowserFactory browserFactory)
+public partial class App
 {
+    private readonly IUrlOpener _urlOpener;
+    private readonly Lazy<UserOptionsWindow> _userOptionsWindow;
+
+    public App(IUrlOpener urlOpener, Lazy<UserOptionsWindow> userOptionsWindow)
+    {
+        InitializeComponent();
+        _urlOpener = urlOpener;
+        _userOptionsWindow = userOptionsWindow;
+    }
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        if (e.Args.Any() && Uri.TryCreate(e.Args[0], UriKind.Absolute, out var uri))
+        Activate(e.Args);
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        base.OnExit(e);
+    }
+
+    public void Activate(string[] args)
+    {
+        if (Dispatcher.CheckAccess())
+            ActivateCore(args);
+        else
+            Dispatcher.Invoke(() => ActivateCore(args));
+    }
+
+    private void ActivateCore(string[] args)
+    {
+        var parsedArgs = CommandLineArgs.Parse(args);
+        if (parsedArgs.Uri is not null)
         {
-            OpenUrl(uri);
+            _urlOpener.OpenUrl(parsedArgs.Uri);
+        }
+        else
+        {
+            var userOptionsWindow = _userOptionsWindow.Value;
+            userOptionsWindow.WindowState = WindowState.Normal;
+            userOptionsWindow.Show();
+            userOptionsWindow.Activate();
         }
     }
 
-    private void OpenUrl(Uri uri)
-    {
-        if (TryOpenUrlUsingRules(uri))
-            return;
-
-        // Show picker
-        MessageBox.Show("I don't know how to open this URL.");
-    }
-
-    private bool TryOpenUrlUsingRules(Uri uri)
-    {
-        var urlHandler = urlHandlerResolver.TryResolve(uri);
-        if (urlHandler is null)
-            return false;
-
-        urlHandler.Open(uri, browserFactory);
-        return true;
-    }
+    public new static App Current => (App) Application.Current;
 }

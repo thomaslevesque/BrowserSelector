@@ -1,30 +1,12 @@
-﻿namespace BrowserSelector.UrlHandling;
+﻿using BrowserSelector.Configuration;
 
-public class UrlHandlerStore : IUrlHandlerStore
+namespace BrowserSelector.UrlHandling;
+
+public class UrlHandlerStore(IUserOptionsStore userOptionsStore) : IUrlHandlerStore
 {
-    public IUrlHandler GetHandler(string id)
-    {
-        return id switch
-        {
-            "chrome-work" => new UrlHandler
-            {
-                Id = id,
-                BrowserId = "Google Chrome",
-                ProfileId = "Profile 7"
-            },
-            "chrome-personal" => new UrlHandler
-            {
-                Id = id,
-                BrowserId = "Google Chrome",
-                ProfileId = "Profile 1"
-            },
-            "firefox-personal" => new UrlHandler
-            {
-                Id = id,
-                BrowserId = "Firefox-308046B0AF4A39CB",
-                ProfileId = "default-release"
-            },
-            _ => throw new ArgumentException("No such handler is known", nameof(id))
-        };
-    }
+    public UrlHandler GetHandler(string id) =>
+        userOptionsStore.Options.UrlHandlers.FirstOrDefault(h => h.Id == id)
+            ?? throw new ArgumentException("No such handler is known", nameof(id));
+
+    public IEnumerable<UrlHandler> GetHandlers() => userOptionsStore.Options.UrlHandlers;
 }

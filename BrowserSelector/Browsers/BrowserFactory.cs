@@ -7,7 +7,7 @@ public class BrowserFactory : IBrowserFactory
 {
     const string StartMenuInternetKeyPath = @"Software\Clients\StartMenuInternet";
 
-    public IEnumerable<IBrowser> GetBrowsers()
+    public IEnumerable<IBrowser> GetAvailableBrowsers()
     {
         using var registryKey = Registry.LocalMachine.OpenSubKey(StartMenuInternetKeyPath);
         if (registryKey == null)

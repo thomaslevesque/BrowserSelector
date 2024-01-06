@@ -2,5 +2,6 @@
 
 public interface IUrlHandlerStore
 {
-    IUrlHandler GetHandler(string id);
+    UrlHandler GetHandler(string id);
+    IEnumerable<UrlHandler> GetHandlers();
 }
