@@ -7,6 +7,12 @@ namespace BrowserSelector.Configuration;
 
 public class UserOptionsStore : IUserOptionsStore
 {
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        WriteIndented = true,
+        ReadCommentHandling = JsonCommentHandling.Skip
+    };
+    
     private readonly IBrowserFactory _browserFactory;
     private readonly Lazy<UserOptions> _options;
 
@@ -25,7 +31,7 @@ public class UserOptionsStore : IUserOptionsStore
         try
         {
             var optionsJson = File.ReadAllText(GetOptionsPath());
-            var options = JsonSerializer.Deserialize<UserOptions>(optionsJson);
+            var options = JsonSerializer.Deserialize<UserOptions>(optionsJson, SerializerOptions);
             if (options is not null)
                 return options;
         }
@@ -66,7 +72,7 @@ public class UserOptionsStore : IUserOptionsStore
     private static void Save(UserOptions options)
     {
         Directory.CreateDirectory(GetAppDataPath());
-        var optionsJson = JsonSerializer.Serialize(options, new JsonSerializerOptions { WriteIndented = true });
+        var optionsJson = JsonSerializer.Serialize(options, SerializerOptions);
         File.WriteAllText(GetOptionsPath(), optionsJson);
     }
 
