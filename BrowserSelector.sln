@@ -2,6 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserSelector", "BrowserSelector\BrowserSelector.csproj", "{6D92815A-9B20-4F8B-9AAD-0FDF3FA1E0EA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{FB899265-1A67-415B-9A59-EC5240474DD0}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{CE749346-A633-4C50-9649-E94CC31FBE67}"
+	ProjectSection(SolutionItems) = preProject
+		img\screenshot.png = img\screenshot.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +23,8 @@ Global
 		{6D92815A-9B20-4F8B-9AAD-0FDF3FA1E0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D92815A-9B20-4F8B-9AAD-0FDF3FA1E0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D92815A-9B20-4F8B-9AAD-0FDF3FA1E0EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE749346-A633-4C50-9649-E94CC31FBE67} = {FB899265-1A67-415B-9A59-EC5240474DD0}
 	EndGlobalSection
 EndGlobal
