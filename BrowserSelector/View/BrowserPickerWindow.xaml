@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:BrowserSelector.View"
         mc:Ignorable="d"
-        Title="BrowserPickerWindow" Height="200" Width="300"
+        Title="BrowserPickerWindow" Height="300" Width="300"
         WindowStyle="None"
         Topmost="True"
         Background="DarkSlateGray"
@@ -29,7 +29,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label Foreground="LightGray">
+        <Label Foreground="LightGray" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
             <TextBlock TextTrimming="CharacterEllipsis" TextAlignment="Center">
                 <Run Text="Select browser to open " />
                 <LineBreak />
@@ -60,15 +60,14 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5">
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="5">
             <CheckBox Grid.Row="2" IsChecked="{Binding RememberMyChoice}" Name="rememberMyChoice"
-                      Foreground="LightGray" VerticalAlignment="Center"
-                      Content="Remember my choice for " />
+                      Foreground="LightGray" Margin="0,0,0,5"
+                      Content="Remember my choice for:" />
             <ComboBox ItemsSource="{Binding MatcherSuggestions}"
                       DisplayMemberPath="DisplayName"
                       SelectedItem="{Binding SelectedMatcherSuggestion}"
                       IsEnabled="{Binding IsChecked, ElementName=rememberMyChoice}"
-                      VerticalAlignment="Center"
                       ToolTip="{Binding SelectedMatcherSuggestion.DisplayName}"/>
         </StackPanel>
     </Grid>
