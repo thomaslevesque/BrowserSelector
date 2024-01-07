@@ -7,6 +7,8 @@ namespace BrowserSelector.Browsers;
 public class FirefoxBrowser(string id, string name, string executablePath)
     : BrowserBase(id, name, executablePath), IBrowserWithProfiles
 {
+    public override string BaseHandlerId => "firefox";
+
     public void Open(Uri uri, BrowserProfile profile, IList<string>? additionalArguments = null)
     {
         additionalArguments =

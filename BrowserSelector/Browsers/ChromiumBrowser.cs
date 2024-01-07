@@ -6,6 +6,8 @@ namespace BrowserSelector.Browsers;
 public class ChromiumBrowser(string id, string name, string executablePath, string userDataPath)
     : ChromiumBasedBrowserBase(id, name, executablePath, userDataPath)
 {
+    public override string BaseHandlerId => "chromium";
+
     public static ChromiumBrowser? TryCreate(RegistryKey registryKey)
     {
         if (!TryGetNameAndPath(registryKey, out var name, out var executablePath))

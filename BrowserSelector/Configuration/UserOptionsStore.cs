@@ -53,9 +53,10 @@ public class UserOptionsStore : IUserOptionsStore
         var browsers = _browserFactory.GetAvailableBrowsers();
         foreach (var browser in browsers)
         {
+            var profileSuffix = browser is IBrowserWithProfiles ? "-default" : "";
             handlers.Add(new UrlHandler
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = browser.BaseHandlerId + profileSuffix,
                 Name = browser.Name,
                 BrowserId = browser.Id
             });

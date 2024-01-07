@@ -6,6 +6,8 @@ namespace BrowserSelector.Browsers;
 public class MicrosoftEdgeBrowser(string id, string name, string executablePath, string userDataPath)
     : ChromiumBasedBrowserBase(id, name, executablePath, userDataPath)
 {
+    public override string BaseHandlerId => "edge";
+
     public static MicrosoftEdgeBrowser? TryCreate(RegistryKey registryKey)
     {
         if (!TryGetNameAndPath(registryKey, out var name, out var executablePath))

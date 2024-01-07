@@ -11,6 +11,8 @@ public abstract class BrowserBase(string id, string name, string executablePath)
     public string Name => name;
 
     public string ExecutablePath => executablePath;
+    
+    public abstract string BaseHandlerId { get; }
 
     public virtual void Open(Uri uri, IList<string>? additionalArguments = null)
     {

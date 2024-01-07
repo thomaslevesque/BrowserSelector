@@ -41,13 +41,14 @@ public class BrowserFactory : IBrowserFactory
 
     private static IBrowser? TryCreate(RegistryKey registryKey)
     {
-        var keyName = Path.GetFileName(registryKey.Name);
+        var keyName = Path.GetFileName(registryKey.Name).ToLowerInvariant();
         return keyName switch
         {
-            "Google Chrome" => GoogleChromeBrowser.TryCreate(registryKey),
-            "Microsoft Edge" => MicrosoftEdgeBrowser.TryCreate(registryKey),
-            "Chromium" => ChromiumBrowser.TryCreate(registryKey),
-            _ when keyName == "Firefox" || keyName.StartsWith("Firefox-") => FirefoxBrowser.TryCreate(registryKey),
+            "google chrome" => GoogleChromeBrowser.TryCreate(registryKey),
+            "microsoft edge" => MicrosoftEdgeBrowser.TryCreate(registryKey),
+            "chromium" => ChromiumBrowser.TryCreate(registryKey),
+            "iexplore.exe" => InternetExplorerBrowser.TryCreate(registryKey),
+            _ when keyName == "firefox" || keyName.StartsWith("firefox-") => FirefoxBrowser.TryCreate(registryKey),
             _ => GenericBrowser.TryCreate(registryKey)
         };
     }
