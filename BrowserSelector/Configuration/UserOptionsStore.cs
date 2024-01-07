@@ -10,7 +10,8 @@ public class UserOptionsStore : IUserOptionsStore
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
         WriteIndented = true,
-        ReadCommentHandling = JsonCommentHandling.Skip
+        ReadCommentHandling = JsonCommentHandling.Skip,
+        AllowTrailingCommas = true
     };
     
     private readonly IBrowserFactory _browserFactory;
