@@ -13,6 +13,9 @@ public class UrlHandlerResolver(
         {
             if (rule.Matcher.IsMatch(uri))
             {
+                if (rule.HandlerId == UrlHandler.UnknownHandlerId)
+                    return null;
+
                 var handler = urlHandlerStore.GetHandler(rule.HandlerId);
                 return handler;
             }
