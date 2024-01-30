@@ -1,4 +1,6 @@
-﻿namespace BrowserSelector.Browsers;
+﻿using System.Windows.Media;
+
+namespace BrowserSelector.Browsers;
 
 public interface IBrowser
 {
@@ -6,6 +8,7 @@ public interface IBrowser
     string Name { get; }
     void Open(Uri uri, IList<string>? additionalArguments = null);
     string BaseHandlerId { get; }
+    ImageSource? GetIcon();
 }
 
 public interface IBrowserWithProfiles : IBrowser

@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Windows.Media;
+using BrowserSelector.Interop;
 using Microsoft.Win32;
 
 namespace BrowserSelector.Browsers;
@@ -29,6 +31,11 @@ public abstract class BrowserBase(string id, string name, string executablePath)
         }
         psi.ArgumentList.Add(uri.AbsoluteUri);
         Process.Start(psi);
+    }
+
+    public ImageSource? GetIcon()
+    {
+        return IconExtractor.GetIcon(ExecutablePath.Trim('"'));
     }
 
     protected static bool TryGetNameAndPath(

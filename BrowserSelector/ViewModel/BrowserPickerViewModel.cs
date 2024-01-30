@@ -1,21 +1,30 @@
-﻿using BrowserSelector.UrlHandling;
+﻿using BrowserSelector.Browsers;
+using BrowserSelector.UrlHandling;
 using EssentialMVVM;
 
 namespace BrowserSelector.ViewModel;
 
 public class BrowserPickerViewModel : BindableBase
 {
+    private readonly IBrowserFactory _browserFactory;
     public Uri Url { get; }
 
-    public BrowserPickerViewModel(Uri url, IUrlHandlerStore urlHandlerStore)
+    public BrowserPickerViewModel(Uri url, IUrlHandlerStore urlHandlerStore, IBrowserFactory browserFactory)
     {
+        _browserFactory = browserFactory;
         Url = url;
         Handlers = urlHandlerStore.GetHandlers()
-            .Select(h => new UrlHandlerViewModel(h))
+            .Select(CreateHandlerViewModel)
             .ToList();
         MatcherSuggestions = CreateMatcherSuggestions(url).ToList();
         _selectedMatcherSuggestion = MatcherSuggestions.First();
         SelectCommand = new DelegateCommand<string>(SelectHandler);
+    }
+
+    private UrlHandlerViewModel CreateHandlerViewModel(UrlHandler h)
+    {
+        var browser = _browserFactory.GetBrowser(h.BrowserId);
+        return new UrlHandlerViewModel(h, browser.GetIcon());
     }
 
     public IEnumerable<UrlHandlerViewModel> Handlers { get; }

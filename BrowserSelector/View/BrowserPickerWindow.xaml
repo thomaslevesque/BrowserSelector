@@ -23,6 +23,27 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Margin" Value="5, 2, 5, 2" />
             <Setter Property="Padding" Value="5" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="Background" Value="DarkSlateGray" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="DimGray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
     <Grid>
@@ -46,7 +67,8 @@
                       HorizontalScrollBarVisibility="Hidden">
             <ItemsControl ItemsSource="{Binding Handlers}"
                           HorizontalAlignment="Stretch"
-                          Focusable="False">
+                          Focusable="False"
+                          Grid.IsSharedSizeScope="True">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical"/>
@@ -54,10 +76,20 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Content="{Binding Name}"
-                                Command="{Binding DataContext.SelectCommand, ElementName=root}"
+                        <Button Command="{Binding DataContext.SelectCommand, ElementName=root}"
                                 CommandParameter="{Binding Id}"
-                                Style="{StaticResource BrowserButtonStyle}"/>
+                                Style="{StaticResource BrowserButtonStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="iconColumn" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{Binding Icon, Mode=OneWay}" Stretch="None"
+                                       VerticalAlignment="Center" Margin="5, 0"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Name, Mode=OneWay}"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
