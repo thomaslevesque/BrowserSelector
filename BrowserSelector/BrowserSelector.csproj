@@ -15,7 +15,7 @@
       <PackageReference Include="EssentialMVVM" Version="1.0.2" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
       <PackageReference Include="NString" Version="2.1.1" />
-      <PackageReference Include="Solo" Version="1.0.0-alpha.1" />
+      <PackageReference Include="Solo" Version="1.0.0-alpha.2" />
     </ItemGroup>
 
 </Project>
